@@ -18,7 +18,6 @@ The assistant also supports candidate queries about the company or position by r
 All conversations are saved to Upstash Redis for session memory, and document content is indexed using Upstash Vector to support contextual retrieval during chats.  
 
 Candidate answers are stored in a Google Sheet file.  
-The users can self-deploy the backend to Vercel.  
 Company documents are stored in Upstash Vector.  
 Chat history is stored in Upstash Redis.  
 The users need to provide a JSON to configure the chatbot. (job-config.json)  
