@@ -8,17 +8,23 @@
 
 ## Project Description
 
-The tool is a chatbot receiving applications for a job. It asks the prescreening questions defined by the recruiter. It also parses and memorizes the company documents to answer questions from the candidate. If the chatbot does not know the answer it emails the question to the recruiter.
+The tool is a chatbot that collects job applications through a conversational interface. It begins by greeting the candidate and sequentially asking customized prescreening questions defined by the recruiter.  
 
-The answers of the candidates are stored in a Google Sheet file.
+Candidate answers are evaluated in real-time. A scoring system, configurable via `job-config.json`, allows recruiters to assign point values to specific answers. Based on this, a candidate score out of 100 is calculated and included in both the recruiter email and the Google Sheet entry.  
 
-The users can self-deploy the backend to Vercel.
+After the questions, the candidate is prompted to upload their CV in PDF format, which is then stored in a designated Google Drive folder.  
 
-Company documents are stored in Upstash Vector.
+The assistant also supports candidate queries about the company or position by referencing provided documents. If an answer cannot be derived from the documents or context, the assistant notifies the recruiter instead of fabricating a response.  
 
-Chat history is stored in Upstash Redis.
+All conversations are saved to Upstash Redis for session memory, and document content is indexed using Upstash Vector to support contextual retrieval during chats.  
 
-The users need to provide a JSON to configure the chatbot. (job-config.json)
+Candidate answers are stored in a Google Sheet file.  
+The users can self-deploy the backend to Vercel.  
+Company documents are stored in Upstash Vector.  
+Chat history is stored in Upstash Redis.  
+The users need to provide a JSON to configure the chatbot. (job-config.json)  
+
+A Dark Mode feature is also available, allowing users to toggle between light and dark themes during the interaction. The user interface is mobile responsive and adapts gracefully to small screens.  
 
 Feel free to create issues on the repository.
 
@@ -86,13 +92,13 @@ npm run dev
 
 ## How to Use
 
-Once you run the program, you will be greeted by the AI-powered assistant's welcome message.
+Once the program is running, the AI assistant greets the user and sequentially asks predefined prescreening questions. Afterward, the user is prompted to upload their CV.  
 
-After answering the assistant's questions, it will ask you to upload your CV.
+Based on the answers, a score out of 100 is calculated by comparing the responses against the configured scoring rules in the `job-config.json`. This score, along with the answers, is sent via email to the hiring manager and saved to a Google Sheet.  
 
-When you upload your CV, it will allow you to ask questions about the job.
+After the CV is uploaded, the user may ask follow-up questions about the job. The assistant answers based on the provided documents and context, or escalates to the manager if needed. The application process is completed when the user confirms there are no further questions.  
 
-The applicant must indicate he or she has no further questions to the assistant to finish the application process and save the application.
+A Dark Mode feature is also available, allowing users to toggle between light and dark themes during the interaction.  
 
 ## Deploy on Vercel
 

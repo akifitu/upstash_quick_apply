@@ -1,6 +1,8 @@
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
 import { NextResponse } from 'next/server';
+import { calculateScore } from '../../lib/calculateScore';
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -48,12 +50,33 @@ export async function POST(req, res) {
                 }
             });
             if (type == 1) {
-                let temp = answers.split(';').join('\n');
+                // Compute score and extract parsed Q&A
+                const { totalScore, breakdown, qaPairs } = calculateScore(answers, jsonData.score_config);
+
+                // Try to extract candidate name and email from raw text
+                const nameMatch = answers.match(/name\s*[:\-–]?\s*(.+)/i);
+                const emailMatch = answers.match(/email\s*[:\-–]?\s*(.+)/i);
+                const fullName = nameMatch?.[1] ?? 'Unknown';
+                const emailAddress = emailMatch?.[1] ?? 'Unknown';
+
+                // Build email body with answers and scoring details
+                let fullText = `${fullName} <${emailAddress}>\n\nCandidate Score: ${totalScore}/100\n\nAll Questions & Answers:\n`;
+
+                qaPairs.forEach((item, idx) => {
+                    fullText += `${idx + 1}. ${item.question}\n   - ${item.answer}\n\n`;
+                });
+
+                fullText += `Score Breakdown:\n`;
+                breakdown.forEach(item => {
+                    fullText += `${item.question}: ${item.score.toFixed(2)}/${item.max.toFixed(2)}\n`;
+                });
+
+                // Send email to hiring manager
                 var mailOptions1 = {
                     from: process.env.EMAIL,
                     to: email_receiver,
                     subject: `${uuid}`,
-                    text: questions + "\n" + temp,
+                    text: fullText,
                 };
                 transporter.sendMail(mailOptions1, function (error, info) {
                     if (error) {

@@ -4,7 +4,7 @@
 
 .wrapper {
     min-height: 100vh;
-    min-width: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
 }
@@ -14,7 +14,8 @@
     display: flex;
     overflow-y: auto;
     scrollbar-width: none;
-    min-width: 48rem;
+    width: 100%;
+    max-width: 48rem;
     min-height: 98vh;
     max-height: 98vh;
     flex-direction: column;
@@ -33,16 +34,19 @@
 .list-container {
     overflow-y: auto;
     scrollbar-width: none;
+    width: 100%;
     max-width: 48rem;
     flex-grow: 1;
+    padding: 0.5rem;
 }
 
 .form-container {
-    height: 10%;
+    height: auto;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: stretch;
+    padding: 1rem 0.5rem;
 }
 
 .cv-upload-form,
@@ -66,6 +70,8 @@ input[type="text"] {
     border-radius: 15px;
     padding: 10px;
     border: 1px solid #ccc;
+    width: 100%;
+    max-width: 100%;
 }
 
 .loader {
@@ -88,5 +94,44 @@ input[type="text"] {
 @keyframes l3 {
     to {
         transform: rotate(1turn)
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .quick-apply-container {
+        padding: 0.5rem;
+        min-height: 100vh;
+        max-height: 100vh;
+    }
+
+    .list-container {
+        padding: 0.25rem;
+    }
+
+    input[type="file"],
+    input[type="text"] {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .form-container {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .quick-apply-container {
+        padding: 0.25rem;
+    }
+
+    input[type="file"],
+    input[type="text"] {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .form-container {
+        padding: 0.25rem;
     }
 }

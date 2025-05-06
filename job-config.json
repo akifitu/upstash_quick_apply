@@ -10,6 +10,23 @@
         "Link to your blog site?",
         "Are you flexible to travel once a month"
     ],
+    "score_config": [
+        {
+            "expected_format": "string",
+            "score_map": { "PhD": 3, "Master": 2, "Bachelor": 1 },
+            "max_score": 3
+        },
+        {
+            "expected_format": "number",
+            "score_map": { "5": 10, "4": 8, "3": 6, "2": 4, "1": 2 },
+            "max_score": 10
+        },
+        {
+            "expected_format": "number",
+            "score_map": { "5": 10, "4": 8, "3": 6, "2": 4, "1": 2 },
+            "max_score": 10
+        }
+    ],
     "position": "Senior Engineer - Devrel",
     "position-link": "https://upstash.com/careers/software-engineer-oss",
     "documents": [

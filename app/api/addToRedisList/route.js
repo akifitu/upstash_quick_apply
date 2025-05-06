@@ -127,7 +127,7 @@ const prompt1 = ChatPromptTemplate.fromMessages([
 
 const extractor_prompt = ChatPromptTemplate.fromMessages([
     new MessagesPlaceholder("history"),
-    ["human", `Extract answers of the questions from the chat history. Output must include the user's name, email and answers to the questions paired with their corresponding questions. Each element of the output must be separated by semicolon. Questions:{input}`]
+    ["human", `Extract answers of the questions from the chat history. Include the user's full name and email address first. Then give a numbered list with each question followed by its final answer (ignore previous incorrect or incomplete answers). Format:\nName: <full name>\nEmail: <email>\n\n1. question text\n   - answer\n2. ... etc.\nQuestions:{input}`]
 ]);
 const end_prompt = ChatPromptTemplate.fromMessages([
     ["system", `Say goodbye to the user using the following message: {endmessage}`],

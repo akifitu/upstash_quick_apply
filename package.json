@@ -39,7 +39,7 @@
     "remixicon-react": "^1.0.0",
     "tailwind-merge": "^2.2.2",
     "tls": "^0.0.1",
-    "uuidv4": "^6.2.13"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/node": "^20",

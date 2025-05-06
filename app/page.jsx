@@ -1,5 +1,5 @@
 'use client';
-import { RiCheckLine, RiQuestionLine } from '@remixicon/react'
+import { RiCheckLine, RiQuestionLine, RiSendPlaneFill } from '@remixicon/react'
 import { v4 as uuid } from "uuid";
 import './globals.css';
 import { clsx } from "clsx";
@@ -84,7 +84,7 @@ export default function Home() {
     }
 
 
-    const handletextSubmit = async (event) => {
+    const handleTextSubmit = async (event) => {
         event.preventDefault();
         let user_input = { text: inputText, sender: "user" };
         setListData([...listData, user_input]);
@@ -121,30 +121,30 @@ export default function Home() {
                 } else {
                     console.error('Failed to save chat history.');
                 }
-            } else {
-                console.error('Failed to receive answer from backend2.');
-            }
-            response = await fetch('/api/addToRedisList', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ channel_name: unique_id, text: textFromResponse, type: 0, ai_output: "" }),
-            });
+                response = await fetch('/api/addToRedisList', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ channel_name: unique_id, text: textFromResponse, type: 0, ai_output: "" }),
+                });
 
-            if (response.ok) {
-                let buff0 = await response.arrayBuffer();
-                const decoder0 = new TextDecoder('utf-8');
-                const decodedString0 = decoder0.decode(buff0);
-                let textFromResponse0 = decodedString0;
-                if (textFromResponse0.toLowerCase() === "yes") {
-                    setCvUpload(true);
+                if (response.ok) {
+                    let buff0 = await response.arrayBuffer();
+                    const decoder0 = new TextDecoder('utf-8');
+                    const decodedString0 = decoder0.decode(buff0);
+                    let textFromResponse0 = decodedString0;
+                    if (textFromResponse0.toLowerCase() === "yes") {
+                        setCvUpload(true);
+                    } else {
+                        setAskfinish(true);
+                        setCvUpload(false);
+                    }
                 } else {
-                    setAskfinish(true);
-                    setCvUpload(false);
+                    console.error('Failed check cv upload');
                 }
             } else {
-                console.error('Failed check cv upload');
+                console.error('Failed to receive answer from backend2.');
             }
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -235,7 +235,7 @@ export default function Home() {
         setAskfinish(false);
 
     }
-    const handlefileSubmit = async (event) => {
+    const handleFileSubmit = async (event) => {
         try {
             event.preventDefault();
             const formData = new FormData();
@@ -325,7 +325,7 @@ export default function Home() {
             <article
                 className={cx(
                     "mb-4 flex items-start gap-4 p-4 md:p-5 rounded-2xl",
-                    isUser ? "" : "bg-emerald-50",
+                    isUser ? "" : "bg-emerald-50 dark:bg-emerald-900/50",
                 )}
             >
                 <Avatar isUser={isUser} />
@@ -364,77 +364,92 @@ export default function Home() {
                     {loading && <article
                         className={cx(
                             "mb-4 flex items-start gap-4 p-4 md:p-5 rounded-2xl",
-                            "bg-emerald-50",
+                            "bg-emerald-50 dark:bg-emerald-900/50",
                         )}
                     >
                         <div className="loader" />
                     </article>}
 
                 </div>
-                <div className="form-container flex w-full">
-                    {(canfinish && askfinish) ?
-                        (<div className={cx(
-                            "transition h-10 md:h-12 pl-4 pr-4 flex rounded-xl flex-row items-center",
-                            "border border-gray-400 text-base",
+                <div className="form-container">
+                    {canfinish && askfinish ? (
+                        <div className={cx(
+                            "transition h-10 md:h-12 w-full flex rounded-xl gap-2",
+                            "text-base",
                             "disabled:bg-gray-100",
-                            "w-full self-center",
-                            "justify-center relative gap-4"
+                            "self-center",
+                            "justify-center relative"
                         )}>
-                            <form onSubmit={handleEnd} className='flex justify-stretch rounded-xl border border-gray-400 text-base items-center w-full'>
-                                <button type="submit" className='flex justify-center items-center w-full'><RiCheckLine /></button>
+                            <form onSubmit={handleEnd} className='flex-1'>
+                                <button type="submit" className='w-full h-full flex justify-center items-center rounded-xl border border-gray-400'>
+                                    <RiCheckLine className="w-5 h-5" />
+                                </button>
                             </form>
-                            <form onSubmit={handleContinue} className='flex justify-stretch rounded-xl border border-gray-400 text-base items-center w-full'>
-                                <button type="submit" className='flex justify-center items-center w-full'><RiQuestionLine /></button>
+                            <form onSubmit={handleContinue} className='flex-1'>
+                                <button type="submit" className='w-full h-full flex justify-center items-center rounded-xl border border-gray-400'>
+                                    <RiQuestionLine className="w-5 h-5" />
+                                </button>
                             </form>
-                        </div>) : (
-                            cv_upload ? (
-                                <form onSubmit={handlefileSubmit} className="cv-upload-form relative m-auto flex items-center gap-4 justify-center" >
-                                    <input required
-                                        type="file"
-                                        onChange={handleFileInputChange}
-                                        className={cx(
-                                            "transition h-10 md:h-12 pl-4 pr-12 flex-1 rounded-xl",
-                                            "border border-gray-400 text-base",
-                                            "disabled:bg-gray-100",
-                                        )} />
-                                    <button
-                                        type="submit"
-                                        tabIndex={-1}
-                                        className={cx(
-                                            "absolute right-3 top-1/2 -translate-y-1/2",
-                                            "opacity-50",
-                                        )}
-                                    >
-                                        <IconArrowBack stroke={1.5} />
-                                    </button>
-                                </form>
-                            ) : (
-                                <form onSubmit={handletextSubmit} className="text-input-form relative m-auto flex items-center gap-4 justify-center">
-                                    <input
-                                        required
-                                        type="text"
-                                        value={inputText}
-                                        onChange={(e) => setInputText(e.target.value)}
-                                        placeholder="Enter your answer..."
-                                        className={cx(
-                                            "transition h-10 md:h-12 pl-4 pr-12 flex-1 rounded-xl",
-                                            "border border-gray-400 text-base",
-                                            "disabled:bg-gray-100",
-                                        )}
-                                    />
-                                    <button
-                                        type="submit"
-                                        tabIndex={-1}
-                                        className={cx(
-                                            "absolute right-3 top-1/2 -translate-y-1/2",
-                                            "opacity-50",
-                                        )}
-                                    >
-                                        <IconArrowBack stroke={1.5} />
-                                    </button>
-                                </form>
-                            ))}
+                        </div>
+                    ) : (
+                        cv_upload ? (
+                            <form onSubmit={handleFileSubmit} className="cv-upload-form relative w-full flex items-center gap-4 justify-center">
+                                <input required
+                                    type="file"
+                                    onChange={handleFileInputChange}
+                                    className={cx(
+                                        "transition h-10 md:h-12 pl-4 pr-12 flex-1 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-sm shadow-md",
+                                        "border border-gray-300 dark:border-gray-600 text-base placeholder-gray-500 dark:placeholder-gray-400",
+                                        "disabled:bg-gray-100",
+                                    )} />
+                                <button
+                                    type="submit"
+                                    tabIndex={-1}
+                                    className={cx(
+                                        "absolute right-3 top-1/2 -translate-y-1/2",
+                                        "opacity-50",
+                                    )}
+                                >
+                                    <RiSendPlaneFill className="w-5 h-5 text-emerald-700 dark:text-emerald-300" />
+                                </button>
+                            </form>
+                        ) : (
+                            <form onSubmit={handleTextSubmit} className="text-input-form relative w-full flex items-center gap-4 justify-center">
+                                <input
+                                    required
+                                    type="text"
+                                    value={inputText}
+                                    onChange={(e) => setInputText(e.target.value)}
+                                    placeholder="Enter your answer..."
+                                    className={cx(
+                                        "transition h-10 md:h-12 pl-4 pr-12 flex-1 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-sm shadow-md",
+                                        "border border-gray-300 dark:border-gray-600 text-base placeholder-gray-500 dark:placeholder-gray-400",
+                                        "disabled:bg-gray-100",
+                                    )}
+                                />
+                                <button
+                                    type="submit"
+                                    tabIndex={-1}
+                                    className={cx(
+                                        "absolute right-3 top-1/2 -translate-y-1/2",
+                                        "opacity-50",
+                                    )}
+                                >
+                                    <RiSendPlaneFill className="w-5 h-5 text-emerald-700 dark:text-emerald-300" />
+                                </button>
+                            </form>
+                        )
+                    )}
                 </div>
+                {/*Dark Mode Button */}
+                <button
+                    onClick={() => {
+                        document.documentElement.classList.toggle('dark');
+                    }}
+                    className="fixed bottom-4 right-4 z-50 p-2 rounded-full shadow-lg bg-gray-200 dark:bg-gray-800 hover:scale-105 transition-transform"
+                >
+                    🌓
+                </button>
                 <PoweredBy />
             </div>
         </div>
