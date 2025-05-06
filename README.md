@@ -96,12 +96,13 @@ Once the program is running, the AI assistant greets the user and sequentially a
 
 Based on the answers, a score out of 100 is calculated by comparing the responses against the configured scoring rules in the `job-config.json`. This score, along with the answers, is sent via email to the hiring manager and saved to a Google Sheet.  
 
+
+![Adsız tasarım](https://github.com/user-attachments/assets/4acd2979-21e4-4403-9092-e5c7c871b60f)
+
+
+![Sheet](https://github.com/user-attachments/assets/fdec6dcd-c69e-4a46-94a2-ee666c2cbf67)
+
+
 After the CV is uploaded, the user may ask follow-up questions about the job. The assistant answers based on the provided documents and context, or escalates to the manager if needed. The application process is completed when the user confirms there are no further questions.  
 
 A Dark Mode feature is also available, allowing users to toggle between light and dark themes during the interaction.  
-
-## Deploy on Vercel
-
-You can deploy to project using the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js using the button below.
-
-[![Deploy with Vercel](https://vercel.com/button)]()
