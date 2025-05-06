@@ -1,3 +1,8 @@
+https://github.com/user-attachments/assets/ccd383c0-a12d-4963-a806-95e3d001283b
+
+
+
+
 ## Contents
 
 - [Project Description](#project-description)
@@ -93,12 +98,6 @@ npm run dev
 Once the program is running, the AI assistant greets the user and sequentially asks predefined prescreening questions. Afterward, the user is prompted to upload their CV.  
 
 Based on the answers, a score out of 100 is calculated by comparing the responses against the configured scoring rules in the `job-config.json`. This score, along with the answers, is sent via email to the hiring manager and saved to a Google Sheet.  
-
-
-
-https://github.com/user-attachments/assets/ccd383c0-a12d-4963-a806-95e3d001283b
-
-
 
 ![Adsız tasarım](https://github.com/user-attachments/assets/4acd2979-21e4-4403-9092-e5c7c871b60f)
 
