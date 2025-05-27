@@ -313,8 +313,8 @@ export default function Home() {
             return (
                 <div
                     className={cx(
-                        "flex items-center justify-center size-8 shrink-0 rounded-full",
-                        isUser ? "bg-gray-200 text-gray-700" : "bg-emerald-950",
+                        "flex items-center justify-center size-12 shrink-0 rounded-full",
+                        isUser ? "bg-transparent text-gray-700" : "bg-transparent",
                     )}
                 >
                     {isUser ? <IconUser size={20} /> : <UpstashLogo />}
